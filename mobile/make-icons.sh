@@ -4,7 +4,7 @@ set -euo pipefail
 SELF="$(cd "$(dirname "$0")" && pwd)"
 cd "$SELF/android/app/src/main/res"
 ROOT="$(cd "$SELF/.." && pwd)"
-FULL="${1:-$ROOT/design/assets/logo-icon.svg}"
+FULL="${1:-$ROOT/design/assets/logo-icon-kraft.svg}"
 FG="${2:-$ROOT/design/assets/logo-icon.svg}"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
