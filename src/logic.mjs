@@ -2,17 +2,22 @@
 // Без DOM и Node — чтобы тестировать обычным node --test.
 
 export const PALETTES = ["pink", "mint", "sky", "lemon", "lavender", "coral", "teal"];
-export const STICKERS = ["heart", "sparkle", "cassette", "bow", "tape", "plaster"];
+export const STICKERS = [
+  "heart", "sparkle", "cassette", "bow", "tape", "plaster",
+  "flower", "sun", "moon", "cloud", "note", "leaf", "cherry", "drop",
+];
 export const SCALES = ["major", "minor", "penta", "dorian"];
 
+// Пул на каждое настроение: из него берутся 4 наклейки, поэтому дни
+// одного настроения не выглядят одинаково.
 export const MOODS = {
-  joy: { label: "радость", palette: "lemon", tempo: 104, scale: "major", stickers: ["sparkle", "heart", "tape"] },
-  calm: { label: "покой", palette: "mint", tempo: 72, scale: "penta", stickers: ["tape", "sparkle", "heart"] },
-  love: { label: "нежность", palette: "pink", tempo: 84, scale: "major", stickers: ["heart", "bow", "cassette"] },
-  sad: { label: "грусть", palette: "sky", tempo: 60, scale: "minor", stickers: ["tape", "heart", "plaster"] },
-  night: { label: "ночь", palette: "lavender", tempo: 68, scale: "dorian", stickers: ["cassette", "sparkle", "tape"] },
-  bright: { label: "драйв", palette: "coral", tempo: 112, scale: "major", stickers: ["sparkle", "heart", "cassette"] },
-  dream: { label: "мечта", palette: "teal", tempo: 76, scale: "penta", stickers: ["sparkle", "bow", "cassette"] },
+  joy: { label: "радость", palette: "lemon", tempo: 104, scale: "major", stickers: ["sun", "flower", "cherry", "sparkle", "heart", "tape"] },
+  calm: { label: "покой", palette: "mint", tempo: 72, scale: "penta", stickers: ["leaf", "cloud", "flower", "tape", "sparkle", "heart"] },
+  love: { label: "нежность", palette: "pink", tempo: 84, scale: "major", stickers: ["heart", "cherry", "flower", "bow", "cassette", "note"] },
+  sad: { label: "грусть", palette: "sky", tempo: 60, scale: "minor", stickers: ["cloud", "drop", "leaf", "plaster", "tape", "heart"] },
+  night: { label: "ночь", palette: "lavender", tempo: 68, scale: "dorian", stickers: ["moon", "cloud", "note", "cassette", "sparkle", "tape"] },
+  bright: { label: "драйв", palette: "coral", tempo: 112, scale: "major", stickers: ["sun", "note", "sparkle", "heart", "cassette", "flower"] },
+  dream: { label: "мечта", palette: "teal", tempo: 76, scale: "penta", stickers: ["moon", "cloud", "flower", "sparkle", "bow", "cassette"] },
 };
 
 const KEYWORDS = {
@@ -37,14 +42,21 @@ export function moodFor(text = "") {
   return best;
 }
 
-export function styleForMood(mood) {
+// Четыре наклейки из пула настроения; seed (текст дня) сдвигает выбор,
+// поэтому разные дни одного настроения получают разные наборы.
+export function styleForMood(mood, seed = "") {
   const m = MOODS[mood] || MOODS.calm;
-  return { mood: MOODS[mood] ? mood : "calm", palette: m.palette, stickers: [...m.stickers], tempo: m.tempo, scale: m.scale };
+  let hash = 0;
+  for (const ch of String(seed)) hash = (hash * 31 + ch.codePointAt(0)) % 100000;
+  const start = hash % m.stickers.length;
+  const count = Math.min(4, m.stickers.length);
+  const stickers = Array.from({ length: count }, (_, i) => m.stickers[(start + i) % m.stickers.length]);
+  return { mood: MOODS[mood] ? mood : "calm", palette: m.palette, stickers, tempo: m.tempo, scale: m.scale };
 }
 
-export function normalizeStyle(raw = {}, fallbackMood = "calm") {
+export function normalizeStyle(raw = {}, fallbackMood = "calm", seed = "") {
   const mood = MOODS[raw.mood] ? raw.mood : MOODS[fallbackMood] ? fallbackMood : "calm";
-  const base = styleForMood(mood);
+  const base = styleForMood(mood, seed);
   const stickers = Array.isArray(raw.stickers) ? raw.stickers.filter((s) => STICKERS.includes(s)).slice(0, 4) : [];
   return {
     mood,

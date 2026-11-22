@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  moodFor, normalizeStyle, monthMatrix, formatDate, titleFromText,
+  MOODS, STICKERS, moodFor, normalizeStyle, styleForMood, monthMatrix, formatDate, titleFromText,
   dateKey, notesOn, songFor, songUrlFor, weekMatrix, monthSummary,
 } from "../src/logic.mjs";
 
@@ -18,6 +18,20 @@ test("normalizeStyle отбрасывает мусор от ИИ", () => {
   assert.deepEqual(style.stickers, ["heart", "bow"]);
   assert.equal(style.tempo, 140);
   assert.equal(style.scale, "major");
+});
+
+test("наклейки: у каждого настроения свой пул, на день берётся 4", () => {
+  for (const [mood, m] of Object.entries(MOODS)) {
+    const style = styleForMood(mood, "текст дня");
+    assert.equal(style.stickers.length, 4, mood);
+    assert.equal(new Set(style.stickers).size, 4, mood);
+    for (const s of style.stickers) {
+      assert.ok(m.stickers.includes(s), `${mood}: ${s} нет в пуле`);
+      assert.ok(STICKERS.includes(s), `${mood}: ${s} не проходит normalizeStyle`);
+    }
+  }
+  const sets = new Set(["а", "б", "в"].map((s) => styleForMood("joy", s).stickers.join(",")));
+  assert.ok(sets.size > 1, "seed должен менять набор наклеек");
 });
 
 test("monthMatrix: 42 клетки, ноябрь 2026 начинается в воскресенье", () => {

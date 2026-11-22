@@ -93,14 +93,36 @@ const SPARKLE = `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 3 61
 const BOW = `<svg viewBox="0 0 100 74" aria-hidden="true"><path d="M45 32C33 19 10 12 6 25c-4 13 19 20 35 11Z" fill="#c3abe8" stroke="#3b2c1f" stroke-width="4" stroke-linejoin="round"/><path d="M55 32c12-13 35-20 39-7 4 13-19 20-35 11Z" fill="#c3abe8" stroke="#3b2c1f" stroke-width="4" stroke-linejoin="round"/><path d="M42 44 33 68M58 44l9 24" stroke="#3b2c1f" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="37" r="9" fill="#ffe27a" stroke="#3b2c1f" stroke-width="4"/></svg>`;
 const CASSETTE = `<div class="sticker sticker--cassette"><span class="cassette__label">album</span><span class="cassette__window"><i></i><b></b><i></i></span></div>`;
 
+// Наклейки-рисунки: тот же контур и бумажные цвета, что у всего альбома.
+const FLOWER = `<svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#3b2c1f" stroke-width="4" stroke-linejoin="round"><circle cx="50" cy="22" r="15" fill="#f9a8c7"/><circle cx="74" cy="40" r="15" fill="#f9a8c7"/><circle cx="64" cy="68" r="15" fill="#f9a8c7"/><circle cx="36" cy="68" r="15" fill="#f9a8c7"/><circle cx="26" cy="40" r="15" fill="#f9a8c7"/><circle cx="50" cy="46" r="13" fill="#ffe27a"/></g></svg>`;
+const SUN = `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="21" fill="#ffe27a" stroke="#3b2c1f" stroke-width="4"/><g stroke="#3b2c1f" stroke-width="5" stroke-linecap="round"><path d="M50 8v11M50 81v11M8 50h11M81 50h11M20 20l8 8M72 72l8 8M80 20l-8 8M28 72l-8 8"/></g></svg>`;
+const MOON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.0174 2.80157C6.37072 3.29221 2.75 7.22328 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C16.7767 21.25 20.7078 17.6293 21.1984 12.9826C19.8717 14.6669 17.8126 15.75 15.5 15.75C11.4959 15.75 8.25 12.5041 8.25 8.5C8.25 6.18738 9.33315 4.1283 11.0174 2.80157Z" fill="#c3abe8" stroke="#3b2c1f" stroke-width="1.1" stroke-linejoin="round"/><path d="M19.2 3.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6Z" fill="#ffe27a"/></svg>`;
+const CLOUD = `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M30 74a16 16 0 0 1-3-32 21 21 0 0 1 41-6 17 17 0 0 1 4 33 11 11 0 0 1-5 5H30Z" fill="#cfe9df" stroke="#3b2c1f" stroke-width="4" stroke-linejoin="round"/></svg>`;
+const NOTE = `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M38 72V26l34-9v36" fill="none" stroke="#3b2c1f" stroke-width="5" stroke-linejoin="round"/><ellipse cx="30" cy="74" rx="11" ry="8" transform="rotate(-15 30 74)" fill="#f9a8c7" stroke="#3b2c1f" stroke-width="4"/><ellipse cx="64" cy="65" rx="11" ry="8" transform="rotate(-15 64 65)" fill="#f9a8c7" stroke="#3b2c1f" stroke-width="4"/></svg>`;
+const LEAF = `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M84 14C44 14 16 34 16 62c0 12 9 20 20 20 28 0 48-30 48-68Z" fill="#bfe3c8" stroke="#3b2c1f" stroke-width="4" stroke-linejoin="round"/><path d="M24 76C40 58 58 40 78 24" fill="none" stroke="#3b2c1f" stroke-width="4" stroke-linecap="round"/></svg>`;
+const CHERRY = `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M40 60C42 42 52 26 68 16M60 62C60 44 64 30 72 22" fill="none" stroke="#3b2c1f" stroke-width="4" stroke-linecap="round"/><circle cx="38" cy="70" r="16" fill="#f9a8c7" stroke="#3b2c1f" stroke-width="4"/><circle cx="62" cy="72" r="16" fill="#f9a8c7" stroke="#3b2c1f" stroke-width="4"/><path d="M66 16c7-7 18-7 24 0-9 3-18 4-24 0Z" fill="#bfe3c8" stroke="#3b2c1f" stroke-width="4" stroke-linejoin="round"/></svg>`;
+const DROP = `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8C50 8 20 44 20 62a30 30 0 0 0 60 0C80 44 50 8 50 8Z" fill="#bcd6f2" stroke="#3b2c1f" stroke-width="4" stroke-linejoin="round"/><path d="M36 60a14 14 0 0 0 10 15" fill="none" stroke="#fffdf7" stroke-width="4" stroke-linecap="round" opacity="0.85"/></svg>`;
+
+const SVG_STICKERS = {
+  heart: [HEART, 54],
+  sparkle: [SPARKLE, 38],
+  bow: [BOW, 64],
+  flower: [FLOWER, 56],
+  sun: [SUN, 50],
+  moon: [MOON, 48],
+  cloud: [CLOUD, 62],
+  note: [NOTE, 44],
+  leaf: [LEAF, 48],
+  cherry: [CHERRY, 56],
+  drop: [DROP, 34],
+};
+
 const SLOTS = [
   { top: "-16px", left: "-18px", rotate: "-13deg" },
   { top: "12px", right: "-18px", rotate: "12deg" },
-  { top: "56%", left: "-32px", rotate: "-9deg" },
+  { top: "56%", left: "-22px", rotate: "-9deg" },
   { bottom: "92px", right: "-28px", rotate: "7deg" },
 ];
-
-const SIZES = { heart: 54, sparkle: 38, bow: 64 };
 
 let notes = [];
 let settings = { hasKey: false, model: "deepseek-chat" };
@@ -178,9 +200,9 @@ function stickerMarkup(type, index) {
     `z-index:${3 + (index % 2)}`,
   ].filter(Boolean).join(";");
 
-  if (type === "heart" || type === "sparkle" || type === "bow") {
-    const svg = type === "heart" ? HEART : type === "sparkle" ? SPARKLE : BOW;
-    return `<span class="sticker" style="${style};width:${SIZES[type]}px;height:auto">${svg}</span>`;
+  const art = SVG_STICKERS[type];
+  if (art) {
+    return `<span class="sticker" style="${style};width:${art[1]}px;height:auto">${art[0]}</span>`;
   }
   if (type === "cassette") return CASSETTE.replace('class="sticker sticker--cassette"', `class="sticker sticker--cassette" style="${style}"`);
   if (type === "tape") return `<span class="sticker sticker--tape" style="${style}"></span>`;
@@ -544,7 +566,7 @@ async function runAI(kind) {
 
   if (!settings.hasKey) {
     if (kind === "style") {
-      applyStyle(styleForMood(moodFor(`${text} ${song.title || ""}`)));
+      applyStyle(styleForMood(moodFor(`${text} ${song.title || ""}`), text));
       toast("Без ключа: стиль по тексту и песне");
     } else {
       toast("Добавьте ключ DeepSeek в настройках");
@@ -771,7 +793,7 @@ function bind() {
   $("#mood-chips").addEventListener("click", (event) => {
     const chip = event.target.closest("[data-mood]");
     if (!chip) return;
-    applyStyle(styleForMood(chip.dataset.mood));
+    applyStyle(styleForMood(chip.dataset.mood, $("#draft-text").value));
   });
 
   $("#energy-chips").addEventListener("click", (event) => {

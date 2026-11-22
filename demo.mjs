@@ -104,7 +104,7 @@ const days = [
 const store = createStore(dataDir);
 
 for (const day of days) {
-  const style = styleForMood(day.mood);
+  const style = styleForMood(day.mood, day.text);
   const source = path.join(here, "demo", day.photo);
   if (!fs.existsSync(source)) {
     console.error(`Нет файла ${source}`);

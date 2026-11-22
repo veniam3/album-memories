@@ -89,6 +89,7 @@ export async function styleFromText({ apiKey, model, text, song = {} }) {
       scale: data.scale,
     },
     fallback,
+    source,
   );
   return { ...style, title: String(data.title ?? "").trim().slice(0, 120) || titleFromText(source) };
 }
