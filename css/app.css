@@ -564,11 +564,6 @@ button.photo__song { text-decoration: underline; text-underline-offset: 2px; cur
   overflow-x: hidden;
   overscroll-behavior: contain;
 }
-.sheet__head { justify-content: space-between; flex-wrap: nowrap; }
-.sheet__head > * { min-width: 0; }
-.sheet__head .btn { flex: none; }
-.sheet__head .h1, .sheet__head .h2 { overflow-wrap: anywhere; }
-.sheet__head .btn { margin: 0; }
 
 .photo-pick {
   position: relative;
