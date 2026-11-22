@@ -106,7 +106,7 @@
 
   <div class="row mood-row">
     <span class="eyebrow" style="flex:none">песня</span>
-    <label class="field" style="flex:1;margin:0">
+    <label class="field" style="flex:1;min-width:0;width:auto;margin:0">
       <input id="draft-song" maxlength="120" placeholder="подберётся по настроению" autocomplete="off">
     </label>
   </div>
@@ -133,8 +133,8 @@
 
 <section class="sheet sheet--year" id="sheet-year" aria-hidden="true" aria-label="Месяцы года">
   <div class="sheet__handle"></div>
-  <div class="row sheet__head">
-    <div>
+  <div class="sheet__top">
+    <div class="sheet__title">
       <span class="eyebrow">календарь настроения</span>
       <h2 class="h2" id="year-title">2026</h2>
     </div>
@@ -151,8 +151,8 @@
 
 <section class="sheet sheet--summary" id="sheet-summary" aria-hidden="true" aria-label="Итоги месяца">
   <div class="sheet__handle"></div>
-  <div class="row sheet__head">
-    <div>
+  <div class="sheet__top">
+    <div class="sheet__title">
       <span class="eyebrow">чек-ап месяца</span>
       <h2 class="h1" id="summary-title">—</h2>
     </div>
