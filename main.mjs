@@ -101,7 +101,11 @@ if (gotLock) app.whenReady().then(() => {
       const file = store.photoPath(decodeURIComponent(url.pathname.replace(/^\/+/, "")));
       if (!file) return new Response("not found", { status: 404 });
       return fs.readFile(file).then((body) => new Response(body, {
-        headers: { "content-type": MIME[path.extname(file).toLowerCase()] || "application/octet-stream" },
+        headers: {
+          "content-type": MIME[path.extname(file).toLowerCase()] || "application/octet-stream",
+          // Фото читается в canvas для цвета фона — нужен CORS.
+          "access-control-allow-origin": "*",
+        },
       }));
     }
     return new Response("not found", { status: 404 });

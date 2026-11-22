@@ -12,6 +12,60 @@ const engine = window.createMusicEngine();
 // Фото в desktop лежит в профиле (album://), в мобильной сборке — data URL.
 const photoSrc = (photo) => (String(photo).startsWith("data:") ? photo : `album://photo/${encodeURIComponent(photo)}`);
 
+// Средний цвет фото задаёт фон стола. Считается один раз на файл.
+const tintCache = new Map();
+function applyPhotoTint(photo) {
+  const phone = document.querySelector(".phone");
+  if (!photo) {
+    phone.style.removeProperty("--photo-tint");
+    return;
+  }
+  if (tintCache.has(photo)) {
+    phone.style.setProperty("--photo-tint", tintCache.get(photo));
+    return;
+  }
+  const img = document.querySelector(".photo__img");
+  if (!img) return;
+  const read = () => {
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 24;
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      ctx.drawImage(img, 0, 0, 24, 24);
+      const { data } = ctx.getImageData(0, 0, 24, 24);
+      // Берём не средний цвет (он мутнеет), а самый насыщенный оттенок кадра.
+      const bins = Array.from({ length: 12 }, () => ({ w: 0, n: 0, r: 0, g: 0, b: 0 }));
+      let ar = 0, ag = 0, ab = 0, an = 0;
+      for (let i = 0; i < data.length; i += 4) {
+        if (data[i + 3] < 200) continue;
+        const r = data[i], g = data[i + 1], b = data[i + 2];
+        ar += r; ag += g; ab += b; an += 1;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        const sat = max ? (max - min) / max : 0;
+        const lum = (max + min) / 510;
+        if (sat < 0.18 || lum < 0.08 || lum > 0.95) continue;
+        const d = max - min;
+        const hue = ((max === r ? (g - b) / d : max === g ? (b - r) / d + 2 : (r - g) / d + 4) * 60 + 360) % 360;
+        const bin = bins[Math.floor(hue / 30) % 12];
+        const w = sat * (1 - Math.abs(lum - 0.55));
+        bin.w += w; bin.n += 1; bin.r += r; bin.g += g; bin.b += b;
+      }
+      const best = bins.reduce((a, b) => (b.w > a.w ? b : a));
+      const use = best.n && best.w > an * 0.03
+        ? [best.r / best.n, best.g / best.n, best.b / best.n]
+        : [ar / an, ag / an, ab / an];
+      if (!use.every(Number.isFinite)) return;
+      const tint = `rgb(${use.map((v) => Math.round(v)).join(" ")})`;
+      tintCache.set(photo, tint);
+      phone.style.setProperty("--photo-tint", tint);
+    } catch {
+      // canvas недоступен — остаётся крафтовый фон
+    }
+  };
+  if (img.complete && img.naturalWidth) read();
+  else img.addEventListener("load", read, { once: true });
+}
+
 const EMPTY_ART = `<svg class="photo__art" viewBox="0 0 240 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
   <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0" stop-color="#fbf1dc"/><stop offset="0.52" stop-color="#f7dcc4"/><stop offset="1" stop-color="#f9a8c7"/>
@@ -139,6 +193,7 @@ function renderStage() {
 
   if (!note) {
     delete stage.dataset.energy;
+    applyPhotoTint(null);
     stage.innerHTML = `<div class="stage__inner">
       <figure class="photo">${EMPTY_ART}
         <div class="photo__fade"></div>
@@ -151,7 +206,7 @@ function renderStage() {
   stage.style.setProperty("--note-accent", `var(--${paletteOfNote(note)})`);
   stage.dataset.energy = note.song?.energy || "medium";
   const image = note.photo
-    ? `<img class="photo__img" src="${photoSrc(note.photo)}" alt="">`
+    ? `<img class="photo__img" src="${photoSrc(note.photo)}" alt="" crossorigin="anonymous">`
     : EMPTY_ART;
   const song = note.song || {};
   const songLine = song.title
@@ -174,6 +229,7 @@ function renderStage() {
     </figure>
     ${note.stickers.map(stickerMarkup).join("")}
   </div>`;
+  applyPhotoTint(note.photo);
 }
 
 function renderActions() {
