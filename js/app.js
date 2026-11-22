@@ -186,9 +186,12 @@ function renderActions() {
   $("#btn-edit").disabled = !note;
   $("#btn-delete").disabled = !note;
 
-  const playing = Boolean(note && state.playing && state.noteId === note.id);
+  const playing = Boolean(state.playing);
   play.classList.toggle("is-playing", playing);
-  play.setAttribute("aria-label", playing ? "Пауза" : "Играть музыку");
+  play.setAttribute("aria-label", playing ? "Остановить музыку" : "Играть музыку");
+  const playIcon = play.querySelector(".icon");
+  playIcon.classList.toggle("i-music", !playing);
+  playIcon.classList.toggle("i-pause", playing);
 
   $("#btn-prev").disabled = !notes.length || index === notes.length - 1;
   $("#btn-next").disabled = !notes.length || (index !== -1 && index === 0);
@@ -633,8 +636,9 @@ function bind() {
   });
   $("#btn-delete").addEventListener("click", removeNote);
   $("#btn-play").addEventListener("click", () => {
+    if (engine.state().playing) return engine.stop();
     const note = currentNote();
-    if (note) engine.toggle(note);
+    if (note) engine.play(note);
   });
   $("#btn-settings").addEventListener("click", openSettings);
 
@@ -747,6 +751,12 @@ function bind() {
   });
 
   engine.onChange(renderActions);
+
+  // Ушли из приложения — музыка замолкает, кнопка возвращается в исходное состояние.
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) engine.stop();
+  });
+  window.addEventListener("pagehide", () => engine.stop());
 }
 
 function buildChips() {

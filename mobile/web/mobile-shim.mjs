@@ -2,6 +2,8 @@
 // Фото храним как data URL, поэтому album:// из desktop здесь не нужен.
 
 import { PALETTES, STICKERS, SCALES, titleFromText } from "../src/logic.mjs";
+import { improveText as aiImproveText, styleFromText as aiStyleFromText } from "../src/ai.mjs";
+import { bundleKey } from "../src/bundle-web.mjs";
 
 const NOTES_KEY = "album.notes.v1";
 const SETTINGS_KEY = "album.settings.v1";
@@ -122,10 +124,16 @@ function pickPhoto() {
   });
 }
 
-const settings = () => ({ hasKey: false, builtin: false, model: "deepseek-chat", ...read(SETTINGS_KEY, {}) });
+const settings = () => ({ model: "deepseek-chat", ...read(SETTINGS_KEY, {}) });
+let keyPromise;
+const getApiKey = () => (keyPromise ??= bundleKey());
+const keyState = async () => {
+  const key = await getApiKey();
+  return { hasKey: Boolean(key), builtin: Boolean(key), model: settings().model };
+};
 
 window.album = {
-  init: async () => ({ ok: true, data: { notes: sorted(), settings: settings() } }),
+  init: async () => ({ ok: true, data: { notes: sorted(), settings: await keyState() } }),
 
   add: async (input) => {
     const note = clean(input);
@@ -155,13 +163,30 @@ window.album = {
   pickPhoto,
 
   saveSettings: async (patch = {}) => {
-    const next = { ...settings(), ...patch, hasKey: false, builtin: false };
-    write(SETTINGS_KEY, { model: next.model });
-    return { ok: true, data: settings() };
+    const model = ["deepseek-chat", "deepseek-reasoner"].includes(patch.model) ? patch.model : settings().model;
+    write(SETTINGS_KEY, { model });
+    return { ok: true, data: await keyState() };
   },
 
-  improveText: async () => ({ ok: false, error: "ИИ доступен в desktop-версии" }),
-  styleFromText: async () => ({ ok: false, error: "ИИ доступен в desktop-версии" }),
+  improveText: async (text) => {
+    const apiKey = await getApiKey();
+    if (!apiKey) return { ok: false, error: "Ключ ИИ недоступен" };
+    try {
+      return { ok: true, data: await aiImproveText({ apiKey, model: settings().model, text }) };
+    } catch (err) {
+      return { ok: false, error: err?.message || "ИИ недоступен" };
+    }
+  },
+
+  styleFromText: async (text, song) => {
+    const apiKey = await getApiKey();
+    if (!apiKey) return { ok: false, error: "Ключ ИИ недоступен" };
+    try {
+      return { ok: true, data: await aiStyleFromText({ apiKey, model: settings().model, text, song }) };
+    } catch (err) {
+      return { ok: false, error: err?.message || "ИИ недоступен" };
+    }
+  },
 
   openExternal: async (value) => {
     try {
