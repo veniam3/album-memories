@@ -35,7 +35,7 @@ const existing = (() => {
 })();
 
 if (Array.isArray(existing) && existing.length && !force) {
-  console.log(`В альбоме уже ${existing.length} дней: ${dataDir}`);
+  console.log(`В дневнике уже ${existing.length} дней: ${dataDir}`);
   console.log("Чтобы заменить их демо-днями, запустите: node demo.mjs --force");
   process.exit(0);
 }

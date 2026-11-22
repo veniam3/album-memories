@@ -49,7 +49,7 @@ function createWindow() {
     height: 900,
     minWidth: 360,
     minHeight: 700,
-    title: "Альбом",
+    title: "O’Upon",
     backgroundColor: "#d6bd97",
     autoHideMenuBar: true,
     webPreferences: {

@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
-# Перекрашивает иконку Android в стиль альбома (крафт + бумажная карточка + сердце).
+# Иконки Android из камеры O'Upon: крафтовый фон + камера.
 set -euo pipefail
-cd "$(dirname "$0")/android/app/src/main/res"
-
-FULL="${1:-/tmp/opencode/album-icon.svg}"
-FG="${2:-/tmp/opencode/album-icon-fg.svg}"
+SELF="$(cd "$(dirname "$0")" && pwd)"
+cd "$SELF/android/app/src/main/res"
+ROOT="$(cd "$SELF/.." && pwd)"
+FULL="${1:-$ROOT/design/assets/logo-icon.svg}"
+FG="${2:-$ROOT/design/assets/logo-icon.svg}"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
-rsvg-convert -w 512 -h 512 "$FULL" -o "$TMP/full.png"
+rsvg-convert -w 512 -h 512 "$FULL" -o "$TMP/camera.png"
+magick -size 512x512 xc:'#d6bd97' "$TMP/camera.png" -gravity center -compose over -composite "$TMP/full.png"
 rsvg-convert -w 432 -h 432 "$FG" -o "$TMP/fg.png"
 
 for spec in mdpi:48:108 hdpi:72:162 xhdpi:96:216 xxhdpi:144:324 xxxhdpi:192:432; do

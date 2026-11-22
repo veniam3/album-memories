@@ -1,11 +1,11 @@
-# Альбом — Android APK
+# O’Upon — Android APK
 
 Мобильная сборка того же интерфейса. Внутри — WebView (Capacitor) и замена Electron-моста:
 заметки и фото хранятся в `localStorage` телефона, фото сжимаются до 1400 px.
 
 ## Готовые APK
 
-- `../apk/album-empty.apk` — пустой альбом (`com.album.memories`).
+- `../apk/album-empty.apk` — пустая версия (`com.album.memories`).
 - `../apk/album-demo.apk` — шесть демо-дней с фото (`com.album.memories.demo`).
 
 Обе сборки debug-подписаны: ставятся через «Установить из файла» или `adb install`.

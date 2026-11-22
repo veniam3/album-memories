@@ -22,5 +22,5 @@ build() {
   echo "готово: dist/$out"
 }
 
-build empty com.album.memories "Альбом" album-empty.apk
-build demo  com.album.memories.demo "Альбом Демо" album-demo.apk
+build empty com.album.memories "O’Upon" album-empty.apk
+build demo  com.album.memories.demo "O’Upon Демо" album-demo.apk

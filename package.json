@@ -1,8 +1,8 @@
 {
-  "name": "album-memories",
+  "name": "o-upon",
   "version": "1.0.0",
   "private": true,
-  "description": "Альбом воспоминаний: фото, мысли, музыка и календарь",
+  "description": "O’Upon — воспоминание дня: фото, мысли, музыка и календарь",
   "type": "module",
   "main": "main.mjs",
   "engines": {

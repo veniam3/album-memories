@@ -446,7 +446,7 @@ function step(direction) {
   const index = notes.findIndex((n) => n.id === currentId);
   if (index === -1) return showNote(notes[0]);
   const next = direction === "older" ? index + 1 : index - 1;
-  if (next < 0 || next >= notes.length) return toast("Это край альбома");
+  if (next < 0 || next >= notes.length) return toast("Это край дневника");
   showNote(notes[next]);
 }
 
@@ -626,7 +626,7 @@ async function saveNote() {
   closeOverlays();
   renderAll();
   engine.play(res.data);
-  toast(wasEditing ? "Воспоминание обновлено" : "Записано в альбом");
+  toast(wasEditing ? "Воспоминание обновлено" : "Записано в дневник");
 }
 
 /* ----------------------------- настройки ----------------------------- */
