@@ -67,8 +67,8 @@ pnpm install
 
 ## Android
 
-Рядом лежит мобильная сборка: `../mobile`. Готовые APK — `../mobile/dist/album-empty.apk`
-и `../mobile/dist/album-demo.apk` (шесть демо-дней). Подробности и пересборка — `../mobile/README.md`.
+Мобильная сборка лежит в `mobile/`. Готовые APK — `apk/album-empty.apk`
+и `apk/album-demo.apk` (шесть демо-дней). Подробности и пересборка — `mobile/README.md`.
 
 ## Где данные
 `~/.config/album-memories/` (Linux):
