@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   moodFor, normalizeStyle, monthMatrix, formatDate, titleFromText,
-  dateKey, notesOn, songFor, weekMatrix, monthSummary,
+  dateKey, notesOn, songFor, songUrlFor, weekMatrix, monthSummary,
 } from "../src/logic.mjs";
 
 test("moodFor понимает русские и английские слова", () => {
@@ -63,6 +63,12 @@ test("songFor подбирает песню по настроению и тек�
   assert.equal(songFor("", "bright").energy, "loud");
   assert.notEqual(songFor("совсем другой день", "joy").title, songFor("", "joy").title);
   assert.equal(songFor("", "joy").title, songFor("", "joy").title);
+});
+
+test("songUrlFor открывает прямую ссылку как есть", () => {
+  const link = "https://music.yandex.ru/album/1/track/2";
+  assert.equal(songUrlFor(link), link);
+  assert.ok(songUrlFor("Molchat Doma Судно").startsWith("https://www.youtube.com/results?search_query="));
 });
 
 test("weekMatrix: неделя с понедельника по воскресенье", () => {

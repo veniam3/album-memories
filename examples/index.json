@@ -1,0 +1,38 @@
+[
+  {
+    "file": "examples/01.png",
+    "date": "2026-11-15",
+    "title": "Ночной мост и тишина",
+    "mood": "night"
+  },
+  {
+    "file": "examples/02.png",
+    "date": "2026-11-16",
+    "title": "Тузик заболел, сидел рядом",
+    "mood": "sad"
+  },
+  {
+    "file": "examples/03.png",
+    "date": "2026-11-18",
+    "title": "Выставка нашей арт-студии",
+    "mood": "love"
+  },
+  {
+    "file": "examples/04.png",
+    "date": "2026-11-19",
+    "title": "Друг детства и закат",
+    "mood": "dream"
+  },
+  {
+    "file": "examples/05.png",
+    "date": "2026-11-20",
+    "title": "Цветной пикник с друзьями",
+    "mood": "bright"
+  },
+  {
+    "file": "examples/06.png",
+    "date": "2026-11-21",
+    "title": "Фотобутка с подругой",
+    "mood": "joy"
+  }
+]

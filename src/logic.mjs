@@ -70,7 +70,10 @@ const SONGS = {
 const SONG_ENERGY = { joy: "loud", bright: "loud", love: "medium", night: "medium", calm: "quiet", dream: "quiet", sad: "quiet" };
 
 export function songUrlFor(title = "") {
-  return `https://www.youtube.com/results?search_query=${encodeURIComponent(String(title).trim())}`;
+  const value = String(title).trim();
+  // Своя ссылка на сервис важнее поиска: её и открываем.
+  if (/^https?:\/\//i.test(value)) return value;
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(value)}`;
 }
 
 // Песня дня подбирается сама: настроение задаёт характер, текст — вариант из списка.
