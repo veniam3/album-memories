@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="O'Upon">
   <title>O'Upon</title>
   <!-- значок без надписи: та же камера, меньше и по центру -->
-  <g transform="translate(43.75 44.85) scale(3.609)">
+  <g transform="translate(44.75 44.85) scale(3.609)">
     <path transform="translate(1.6 2.2)" fill="#b0906a"
           d="M49.5,20h-5c0,0-1.4,0.3-2.5-2.3c-0.5-1.4-1.1-2.7-2.5-2.7h-10c-1.4,0-2,1.3-2.5,2.7c-1,2.7-2.5,2.3-2.5,2.3H22c0-1.5-1.1-2-2.5-2H17c-1.4,0-2.5,0.5-2.5,2c-1.4,0-2.5,1.5-2.5,3v21.3c0,1.5,1.1,2.7,2.5,2.7h35c1.4,0,2.5-1.2,2.5-2.7V23C52,21.5,50.9,20,49.5,20z"/>
     <path fill="#fbf1dc" stroke="#3b2c1f" stroke-width="2"
