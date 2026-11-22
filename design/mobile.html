@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="la">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d6bd97">
+<title>Lorem ipsum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/kit.css">
+<style>
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100svh;
+    padding: 28px 16px;
+  }
+
+  /* ---------- корпус телефона ---------- */
+  .phone {
+    position: relative;
+    flex: none;
+    width: 390px;
+    height: 844px;
+    overflow: hidden;
+    border: 3px solid var(--ink);
+    border-radius: 42px;
+    box-shadow:
+      10px 10px 0 0 var(--shadow),
+      inset 0 0 0 3px var(--ring);
+    background-color: var(--kraft);
+    background-image:
+      radial-gradient(420px 360px at 12% -6%, var(--kraft-light), transparent 70%),
+      radial-gradient(380px 320px at 108% 8%, var(--kraft-deep), transparent 72%);
+  }
+
+  .topbar {
+    position: absolute;
+    z-index: 8;
+    top: 16px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .topbar .row { gap: 8px; }
+
+  /* ---------- раскрывающаяся записка ---------- */
+  .note {
+    position: absolute;
+    z-index: 6;
+    top: 58px;
+    left: 18px;
+    right: 18px;
+    padding: 13px 15px;
+    background: var(--paper);
+    border: var(--border-w) solid var(--ink);
+    border-radius: 18px;
+    box-shadow: 4px 4px 0 0 var(--shadow), inset 0 0 0 3px var(--ring);
+  }
+  .note__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .note__title {
+    flex: 1;
+    font-size: 17px;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.18;
+  }
+  .note__arrow {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: var(--paper-2);
+    box-shadow: 2px 2px 0 0 var(--shadow);
+    transition: transform 260ms var(--spring), background 160ms ease-out;
+  }
+  .note__arrow .icon { --icon-size: 16px; }
+  .note.is-open .note__arrow { transform: rotate(180deg); background: var(--mint); }
+  .note__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 360ms var(--spring);
+  }
+  .note.is-open .note__body { grid-template-rows: 1fr; }
+  .note__inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .note__inner p { margin: 10px 0 0; }
+  .note__inner p + p { margin-top: 8px; }
+
+  /* ---------- фото 3×4 ---------- */
+  .photo {
+    position: absolute;
+    z-index: 2;
+    top: 176px;
+    left: 50%;
+    width: 243px;
+    height: 324px;
+    margin: 0;
+    transform: translateX(-50%);
+    overflow: hidden;
+    border: var(--border-w) solid var(--ink);
+    border-radius: 18px;
+    box-shadow: 6px 6px 0 0 var(--shadow), inset 0 0 0 3px var(--ring);
+    background: var(--paper);
+  }
+  .photo__art {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.1;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .photo__fade {
+    position: absolute;
+    z-index: 1;
+    inset: auto 0 0;
+    height: 52%;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.78), rgb(0 0 0 / 0.34) 45%, transparent);
+  }
+  .photo__caption {
+    position: absolute;
+    z-index: 2;
+    left: 14px;
+    right: 12px;
+    bottom: 12px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+    color: #fff8ec;
+  }
+  .photo__caption b {
+    display: block;
+    font-size: 14px;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+  }
+  .photo__caption span {
+    display: block;
+    font-size: 11px;
+    opacity: 0.78;
+  }
+  .photo__like {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border: 2px solid #fff8ec;
+    border-radius: 50%;
+    background: rgb(251 241 220 / 0.14);
+    color: #fff8ec;
+    cursor: pointer;
+    transition: background 160ms ease-out, color 160ms ease-out, transform 180ms var(--spring);
+  }
+  .photo__like .icon { --icon-size: 16px; }
+  .photo__like:hover { transform: scale(1.08); }
+  .photo__like.is-on { background: var(--pink); border-color: var(--ink); color: var(--ink); }
+
+  /* ---------- действия под фото ---------- */
+  .actions {
+    position: absolute;
+    z-index: 6;
+    top: 512px;
+    left: 22px;
+    right: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .actions .row { gap: 10px; }
+
+  /* ---------- наклейки ---------- */
+  .sticker {
+    position: absolute;
+    filter: drop-shadow(3px 3px 0 var(--shadow));
+    pointer-events: none;
+    user-select: none;
+  }
+  .heart { width: 74px; height: auto; }
+  .heart--sm { width: 46px; }
+  .heart--lg { top: 146px; right: 4px; z-index: 4; transform: rotate(13deg); }
+  .heart--mini { top: 596px; right: 24px; z-index: 5; transform: rotate(-9deg); }
+
+  .sparkle { width: 54px; height: auto; }
+  .sparkle--back { top: 252px; left: 16px; z-index: 1; transform: rotate(-8deg); }
+  .sparkle--front { top: 214px; right: 58px; z-index: 5; width: 30px; transform: rotate(14deg); }
+
+  .cassette {
+    width: 118px;
+    height: 76px;
+    border: var(--border-w) solid var(--ink);
+    border-radius: 11px;
+    background: var(--lavender);
+    box-shadow: inset 0 0 0 3px var(--ring);
+  }
+  .cassette--back { top: 330px; right: -26px; z-index: 1; transform: rotate(9deg); }
+  .cassette--front { top: 116px; left: -18px; z-index: 3; transform: rotate(-13deg); }
+  .cassette__label {
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    top: 6px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--ink);
+    border-radius: 5px;
+    background: var(--paper);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .cassette__window {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 12px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    border: 2px solid var(--ink);
+    border-radius: 7px;
+    background: var(--ink);
+  }
+  .cassette__window i {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: var(--paper);
+  }
+  .cassette__window i::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+  .cassette__window b {
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background: var(--paper-2);
+  }
+
+  .plaster-sticker {
+    top: 556px;
+    left: 6px;
+    z-index: 5;
+    width: 114px;
+    height: 40px;
+    transform: rotate(-12deg);
+    border: var(--border-w) solid var(--ink);
+    border-radius: 999px;
+    background: var(--coral);
+    box-shadow: inset 0 0 0 3px var(--ring);
+  }
+  .plaster-sticker::before {
+    content: "";
+    position: absolute;
+    inset: 0 32px;
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    background-color: var(--paper-2);
+    background-image: radial-gradient(rgb(59 44 31 / 0.32) 1.4px, transparent 1.7px);
+    background-size: 7px 7px;
+    background-position: 3px 3px;
+  }
+
+  .tape {
+    top: 42px;
+    right: 34px;
+    z-index: 1;
+    width: 94px;
+    height: 24px;
+    transform: rotate(7deg);
+    border: 2px solid rgb(59 44 31 / 0.18);
+    background-color: rgb(255 250 240 / 0.62);
+    background-image: repeating-linear-gradient(90deg, rgb(59 44 31 / 0.09) 0 3px, transparent 3px 7px);
+  }
+
+  .badge-sticker {
+    top: 566px;
+    left: 128px;
+    z-index: 5;
+    transform: rotate(6deg);
+  }
+
+  /* ---------- календарь ---------- */
+  .cal {
+    position: absolute;
+    z-index: 7;
+    left: 18px;
+    right: 18px;
+    bottom: 16px;
+    padding: 13px 15px 12px;
+    background: var(--paper);
+    border: var(--border-w) solid var(--ink);
+    border-radius: 20px;
+    box-shadow: 5px 5px 0 0 var(--shadow), inset 0 0 0 3px var(--ring);
+  }
+  .cal__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .cal__nav { display: flex; gap: 6px; }
+  .cal__nav .btn { margin: 0; }
+  .cal__nav .i-chevron { transform: rotate(-90deg); }
+  .cal__nav .is-prev .i-chevron { transform: rotate(90deg); }
+  .cal__week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-top: 10px;
+  }
+  .cal__day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink-soft);
+    font: inherit;
+    cursor: pointer;
+  }
+  .cal__day > span {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+  }
+  .cal__day > b {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: var(--font-weight-bold);
+    transition: background 160ms ease-out, transform 160ms var(--spring);
+  }
+  .cal__day > i {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--dot, transparent);
+  }
+  .cal__day:hover > b { background: var(--paper-2); }
+  .cal__day:active > b { transform: scale(0.92); }
+  .cal__day.is-active > b {
+    background: var(--mint);
+    border-color: var(--ink);
+    box-shadow: 2px 2px 0 0 var(--shadow);
+  }
+  .cal__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 9px;
+    border-top: 2px dashed rgb(59 44 31 / 0.22);
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- мобильный режим ---------- */
+  @media (max-width: 430px) {
+    body { display: block; padding: 0; }
+    .phone {
+      width: 100%;
+      height: 100svh;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .cal { bottom: max(16px, env(safe-area-inset-bottom)); }
+  }
+  @media (max-width: 380px) {
+    .photo { width: 222px; height: 296px; }
+    .heart--lg { top: 152px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="topbar">
+    <span class="eyebrow">lorem · ipsum</span>
+    <div class="row">
+      <button class="btn btn--icon btn--sm" aria-label="Уведомления"><i class="icon i-bell" style="--icon-size:15px"></i></button>
+      <button class="btn btn--icon btn--sm btn--mint" aria-label="Настройки"><i class="icon i-settings" style="--icon-size:15px"></i></button>
+    </div>
+  </div>
+
+  <section class="note" id="note">
+    <button class="note__head" type="button" aria-expanded="false" aria-controls="note-body">
+      <span class="note__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</span>
+      <span class="note__arrow"><i class="icon i-chevron"></i></span>
+    </button>
+    <div class="note__body" id="note-body">
+      <div class="note__inner">
+        <p class="sub">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p class="sub">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      </div>
+    </div>
+  </section>
+
+  <figure class="photo">
+    <svg class="photo__art" viewBox="0 0 240 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fbf1dc"/>
+          <stop offset="0.52" stop-color="#f7dcc4"/>
+          <stop offset="1" stop-color="#f9a8c7"/>
+        </linearGradient>
+      </defs>
+      <rect width="240" height="320" fill="url(#sky)"/>
+      <circle cx="172" cy="88" r="42" fill="#ffe27a" stroke="#3b2c1f" stroke-width="3"/>
+      <circle cx="172" cy="88" r="30" fill="none" stroke="#3b2c1f" stroke-width="1.5" stroke-dasharray="4 7" opacity="0.4"/>
+      <g fill="#fbf1dc" stroke="#3b2c1f" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M24 92a13 13 0 0 1 25-4 11 11 0 0 1 16 4z"/>
+        <path d="M156 148a10 10 0 0 1 19-3 8 8 0 0 1 12 3z"/>
+      </g>
+      <g stroke="#3b2c1f" stroke-width="2.2" fill="none" stroke-linecap="round">
+        <path d="M44 128c4-4 8-4 12 0M63 120c3-3 6-3 9 0"/>
+      </g>
+      <path d="M-10 232Q58 176 134 226T250 216V330H-10Z" fill="#ffa487" stroke="#3b2c1f" stroke-width="3"/>
+      <path d="M-10 262Q66 206 146 256T250 246V330H-10Z" fill="#a9e5b8" stroke="#3b2c1f" stroke-width="3"/>
+      <path d="M-10 294Q74 250 154 288T250 280V330H-10Z" fill="#8edfd3" stroke="#3b2c1f" stroke-width="3"/>
+      <g stroke="#3b2c1f" stroke-width="2" fill="#fbf1dc">
+        <path d="M196 252l6-14 6 14z"/>
+        <rect x="194" y="252" width="16" height="14" rx="2"/>
+      </g>
+      <g stroke="#3b2c1f" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8">
+        <path d="M28 176v10M23 181h10M208 66v8M204 70h8"/>
+      </g>
+    </svg>
+
+    <div class="photo__fade"></div>
+    <div class="photo__caption">
+      <div>
+        <b>Lorem ipsum</b>
+        <span>dolor sit amet</span>
+      </div>
+      <button class="photo__like" type="button" aria-label="Нравится" aria-pressed="false" data-like>
+        <i class="icon i-like"></i>
+      </button>
+    </div>
+  </figure>
+
+  <!-- наклейки: часть за фото, часть перед ним -->
+  <svg class="sticker heart heart--lg" viewBox="0 0 100 92" aria-hidden="true">
+    <path d="M50 84C24 66 6 49 6 31 6 17 17 7 30 7c9 0 16 4 20 10 4-6 11-10 20-10 13 0 24 10 24 24 0 18-18 35-44 53Z"
+      fill="#f9a8c7" stroke="#3b2c1f" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M26 20c-5 1-9 5-10 10" stroke="#fffdf7" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.9"/>
+  </svg>
+
+  <svg class="sticker heart heart--sm heart--mini" viewBox="0 0 100 92" aria-hidden="true">
+    <path d="M50 84C24 66 6 49 6 31 6 17 17 7 30 7c9 0 16 4 20 10 4-6 11-10 20-10 13 0 24 10 24 24 0 18-18 35-44 53Z"
+      fill="#ffa487" stroke="#3b2c1f" stroke-width="5" stroke-linejoin="round"/>
+  </svg>
+
+  <svg class="sticker sparkle sparkle--back" viewBox="0 0 100 100" aria-hidden="true">
+    <path d="M50 3 61 39 97 50 61 61 50 97 39 61 3 50 39 39Z" fill="#c3abe8" stroke="#3b2c1f" stroke-width="4" stroke-linejoin="round"/>
+  </svg>
+  <svg class="sticker sparkle sparkle--front" viewBox="0 0 100 100" aria-hidden="true">
+    <path d="M50 3 61 39 97 50 61 61 50 97 39 61 3 50 39 39Z" fill="#ffe27a" stroke="#3b2c1f" stroke-width="5" stroke-linejoin="round"/>
+  </svg>
+
+  <div class="sticker cassette cassette--front" aria-hidden="true">
+    <span class="cassette__label">lorem</span>
+    <span class="cassette__window"><i></i><b></b><i></i></span>
+  </div>
+  <div class="sticker cassette cassette--back" aria-hidden="true">
+    <span class="cassette__label">ipsum</span>
+    <span class="cassette__window"><i></i><b></b><i></i></span>
+  </div>
+
+  <div class="sticker plaster-sticker" aria-hidden="true"></div>
+  <span class="badge badge-sticker sticker" aria-hidden="true">lorem</span>
+  <div class="tape sticker" aria-hidden="true"></div>
+
+  <div class="actions">
+    <div class="row">
+      <button class="btn btn--icon btn--sm btn--pink" aria-label="Нравится"><i class="icon i-like" style="--icon-size:15px"></i></button>
+      <button class="btn btn--icon btn--sm" aria-label="Комментировать"><i class="icon i-comment" style="--icon-size:15px"></i></button>
+      <button class="btn btn--icon btn--sm" aria-label="Поделиться"><i class="icon i-share" style="--icon-size:15px"></i></button>
+    </div>
+    <span class="badge badge--lemon">lorem ipsum</span>
+  </div>
+
+  <section class="cal" aria-label="Календарь">
+    <div class="cal__head">
+      <div>
+        <div class="eyebrow">lorem</div>
+        <div class="h3">Ipsum 2026</div>
+      </div>
+      <div class="cal__nav">
+        <button class="btn btn--icon btn--sm is-prev" aria-label="Назад"><i class="icon i-chevron"></i></button>
+        <button class="btn btn--icon btn--sm" aria-label="Вперёд"><i class="icon i-chevron"></i></button>
+      </div>
+    </div>
+
+    <div class="cal__week">
+      <button class="cal__day"><span>L</span><b>12</b><i style="--dot:var(--pink)"></i></button>
+      <button class="cal__day"><span>M</span><b>13</b><i></i></button>
+      <button class="cal__day"><span>M</span><b>14</b><i style="--dot:var(--sky)"></i></button>
+      <button class="cal__day is-active"><span>I</span><b>15</b><i style="--dot:var(--ink)"></i></button>
+      <button class="cal__day"><span>V</span><b>16</b><i></i></button>
+      <button class="cal__day"><span>S</span><b>17</b><i style="--dot:var(--lemon)"></i></button>
+      <button class="cal__day"><span>D</span><b>18</b><i></i></button>
+    </div>
+
+    <div class="cal__foot">
+      <span>lorem ipsum dolor</span>
+      <span>3 lorem</span>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // записка раскрывается по кнопке
+  const note = document.getElementById("note");
+  const noteHead = note.querySelector(".note__head");
+  noteHead.addEventListener("click", () => {
+    const open = note.classList.toggle("is-open");
+    noteHead.setAttribute("aria-expanded", String(open));
+  });
+
+  // календарь: активный день
+  document.querySelectorAll(".cal__day").forEach((day) => {
+    day.addEventListener("click", () => {
+      document.querySelectorAll(".cal__day").forEach((d) => d.classList.remove("is-active"));
+      day.classList.add("is-active");
+    });
+  });
+
+  // сердечко на фото
+  const like = document.querySelector("[data-like]");
+  like.addEventListener("click", () => {
+    const on = like.classList.toggle("is-on");
+    like.setAttribute("aria-pressed", String(on));
+  });
+</script>
+</body>
+</html>

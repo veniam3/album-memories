@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' album: data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="theme-color" content="#d6bd97">
+<title>Альбом</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/kit.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="topbar">
+    <div class="topbar__title">
+      <span class="eyebrow">альбом · воспоминания</span>
+      <span class="caption" id="album-count">пока пусто</span>
+    </div>
+    <div class="row topbar__nav">
+      <button class="btn btn--icon btn--sm" id="btn-prev" aria-label="Раньше"><i class="icon i-chevron" style="transform:rotate(90deg)"></i></button>
+      <button class="btn btn--icon btn--sm" id="btn-next" aria-label="Позже"><i class="icon i-chevron" style="transform:rotate(-90deg)"></i></button>
+      <button class="btn btn--icon btn--sm btn--mint" id="btn-settings" aria-label="Настройки"><i class="icon i-settings"></i></button>
+    </div>
+  </div>
+
+  <section class="note" id="note" aria-label="Заметка">
+    <button class="note__head" type="button" id="note-head" aria-expanded="false" aria-controls="note-body">
+      <span class="note__title" id="note-title">Здесь появится воспоминание</span>
+      <span class="note__arrow"><i class="icon i-chevron"></i></span>
+    </button>
+    <div class="note__body" id="note-body">
+      <div class="note__inner">
+        <p class="sub" id="note-text"></p>
+        <p class="caption" id="note-date"></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="stage" id="stage"></div>
+
+  <div class="actions">
+    <div class="row actions__icons">
+      <button class="btn btn--icon btn--sm" id="btn-play" aria-label="Играть музыку"><i class="icon i-music"></i></button>
+      <button class="btn btn--icon btn--sm" id="btn-edit" aria-label="Изменить"><i class="icon i-edit"></i></button>
+      <button class="btn btn--icon btn--sm" id="btn-delete" aria-label="Удалить"><i class="icon i-close"></i></button>
+    </div>
+    <button class="btn btn--primary" id="btn-add"><i class="icon i-plus"></i>Добавить</button>
+  </div>
+
+  <section class="cal" aria-label="Календарь настроения">
+    <div class="cal__head">
+      <button class="cal__open" id="cal-open" type="button" aria-label="Показать месяцы года">
+        <span class="eyebrow">календарь настроения</span>
+        <span class="cal__title" id="cal-title">—</span>
+        <span class="caption" id="cal-sub"></span>
+      </button>
+      <div class="cal__nav">
+        <button class="btn btn--icon btn--sm is-prev" id="cal-prev" aria-label="Прошлая неделя"><i class="icon i-chevron"></i></button>
+        <button class="btn btn--icon btn--sm" id="cal-next" aria-label="Следующая неделя"><i class="icon i-chevron"></i></button>
+      </div>
+    </div>
+    <div class="cal__dow" aria-hidden="true">
+      <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
+    </div>
+    <div class="cal__week" id="cal-grid"></div>
+    <div class="cal__foot">
+      <span id="cal-foot">0 воспоминаний</span>
+      <div class="cal__links">
+        <button class="cal__link" id="cal-summary" type="button">итоги</button>
+        <button class="cal__link" id="cal-today" type="button">сегодня</button>
+        <button class="cal__link" id="cal-year" type="button">год</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<section class="sheet sheet--add" id="sheet-add" aria-hidden="true" aria-label="Новое воспоминание">
+  <div class="sheet__handle"></div>
+  <div class="row sheet__head">
+    <h2 class="h2" id="add-title">Новое воспоминание</h2>
+    <button class="btn btn--icon btn--sm" data-close aria-label="Закрыть"><i class="icon i-close"></i></button>
+  </div>
+
+  <button class="photo-pick" id="pick-photo" type="button" aria-label="Выбрать фото">
+    <img id="photo-preview" alt="" hidden>
+    <span class="photo-pick__hint" id="photo-hint"><i class="icon i-camera"></i>Выбрать фото</span>
+  </button>
+
+  <label class="field field--area">
+    <textarea id="draft-text" maxlength="5000" placeholder="Что запомнилось? Пара слов о дне…"></textarea>
+  </label>
+
+  <div class="row mood-row">
+    <span class="eyebrow" style="flex:none">настроение</span>
+    <div class="chips" id="mood-chips"></div>
+  </div>
+
+  <div class="row mood-row">
+    <span class="eyebrow" style="flex:none">песня</span>
+    <label class="field" style="flex:1;margin:0">
+      <input id="draft-song" maxlength="120" placeholder="подберётся по настроению" autocomplete="off">
+    </label>
+  </div>
+
+  <div class="row mood-row">
+    <span class="eyebrow" style="flex:none">характер</span>
+    <div class="chips" id="energy-chips"></div>
+  </div>
+  <p class="caption" style="margin:-4px 0 0">Песня подбирается по настроению. Можно вписать свою — ссылка на поиск YouTube подставится сама.</p>
+
+  <div class="row">
+    <button class="btn btn--sm btn--sky" id="btn-ai-text"><i class="icon i-edit" style="--icon-size:14px"></i>Улучшить текст</button>
+    <button class="btn btn--sm btn--lavender" id="btn-ai-style"><i class="icon i-palette" style="--icon-size:14px"></i>Подобрать стиль</button>
+    <span class="caption" id="ai-status"></span>
+  </div>
+
+  <label class="field">
+    <span class="label" style="flex:none">Дата</span>
+    <input type="date" id="draft-date">
+  </label>
+
+  <button class="btn btn--primary btn--lg" id="btn-save" style="width:100%">В альбом</button>
+</section>
+
+<section class="sheet sheet--year" id="sheet-year" aria-hidden="true" aria-label="Месяцы года">
+  <div class="sheet__handle"></div>
+  <div class="row sheet__head">
+    <div>
+      <span class="eyebrow">календарь настроения</span>
+      <h2 class="h2" id="year-title">2026</h2>
+    </div>
+    <button class="btn btn--icon btn--sm" data-close aria-label="Закрыть"><i class="icon i-close"></i></button>
+  </div>
+  <div class="year__nav">
+    <button class="btn btn--icon btn--sm is-prev" id="year-prev" aria-label="Прошлый год"><i class="icon i-chevron"></i></button>
+    <span class="caption" id="year-sub">12 месяцев</span>
+    <button class="btn btn--icon btn--sm" id="year-next" aria-label="Следующий год"><i class="icon i-chevron"></i></button>
+  </div>
+  <div class="year__grid" id="year-grid"></div>
+  <p class="caption">Цвет клетки — настроение дня. Нажмите на день, чтобы открыть его.</p>
+</section>
+
+<section class="sheet sheet--summary" id="sheet-summary" aria-hidden="true" aria-label="Итоги месяца">
+  <div class="sheet__handle"></div>
+  <div class="row sheet__head">
+    <div>
+      <span class="eyebrow">чек-ап месяца</span>
+      <h2 class="h1" id="summary-title">—</h2>
+    </div>
+    <button class="btn btn--icon btn--sm" data-close aria-label="Закрыть"><i class="icon i-close"></i></button>
+  </div>
+  <p class="caption" id="summary-meta"></p>
+  <div class="summary__moods" id="summary-moods"></div>
+  <div class="summary__collage" id="summary-collage"></div>
+  <p class="sub" id="summary-song"></p>
+</section>
+
+<section class="sheet" id="sheet-settings" aria-hidden="true" aria-label="Настройки">
+  <div class="sheet__handle"></div>
+  <div class="row sheet__head">
+    <h2 class="h2">Настройки</h2>
+    <button class="btn btn--icon btn--sm" data-close aria-label="Закрыть"><i class="icon i-close"></i></button>
+  </div>
+
+  <p class="sub">Ключ DeepSeek уже встроен в приложение — вводить ничего не нужно. Поле ниже нужно, только чтобы заменить его своим ключом.</p>
+
+  <label class="field">
+    <span class="label" style="flex:none">Ключ</span>
+    <input type="password" id="api-key" placeholder="sk-…" autocomplete="off" spellcheck="false">
+  </label>
+
+  <div class="row">
+    <span class="eyebrow" style="flex:none">модель</span>
+    <div class="chips" id="model-chips"></div>
+  </div>
+
+  <div class="row">
+    <span class="eyebrow" style="flex:none">звуки</span>
+    <div class="chips" id="sfx-chips">
+      <button class="chip chip--plain" type="button" data-sfx="on">вкл</button>
+      <button class="chip chip--plain" type="button" data-sfx="off">выкл</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <button class="btn btn--primary" id="btn-save-key">Сохранить</button>
+    <button class="btn" id="btn-clear-key">Удалить ключ</button>
+  </div>
+  <p class="caption" id="key-status"></p>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/music.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

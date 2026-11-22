@@ -1,0 +1,8 @@
+node_modules/
+dist/
+out/
+data/
+*.log
+.DS_Store
+
+mobile/www/
