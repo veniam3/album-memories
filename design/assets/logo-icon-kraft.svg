@@ -42,7 +42,7 @@
      y="0" />
   <!-- значок без надписи: та же камера, меньше и по центру -->
   <g
-     transform="translate(45.75 44.85) scale(3.609)"
+     transform="translate(43.75 44.85) scale(3.609)"
      id="g11">
     <path
        transform="translate(1.6,2.2)"
